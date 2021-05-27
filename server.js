@@ -4,6 +4,7 @@ const morgan = require("morgan");
 require("dotenv").config();
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/register");
+const authRoutes = require("./routes/auth")
 
 const PORT = process.env.PORT || 5000;
 
@@ -21,6 +22,7 @@ connectDB();
 app.use(morgan("tiny"));
 
 app.use("/api", mainRoutes);
+app.use("/api/login", authRoutes);
 
 app.listen(PORT, () =>
     console.log(`Server Runing on https://localhost:${PORT}`)

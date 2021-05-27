@@ -5,10 +5,10 @@ async function connectDB() {
     try {
         const conn = await mongoose.connect(process.env.DATABASE_URL, {
             useCreateIndex: true,
-            useFindAndModify: true,
+            useFindAndModify: false,
             useNewUrlParser: true,
-            useUnifiedTopology: true
-        })
+            useUnifiedTopology: true,
+        });
         if (conn) {
             console.log(`Mongo Db Connected to ${conn.connection.host}`)
         } else {

@@ -50,7 +50,7 @@ router.post('/register', (req, res) => {
                         .then((result) => {
                             var token = jwt.sign({ id: newUser._id, userType, status },
                                 process.env.secret_key, {
-                                    expiresIn: 1800, // expires in 24 hours
+                                    expiresIn: 1800, // expires in 30 min
                                 }
                             );
                             res
