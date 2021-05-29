@@ -65,7 +65,7 @@ router.get("/resident", [isAuthenticated, applicant], async(req, res) => {
 });
 
 
-//*api for all the submittied  apllications 
+//*api for all the submittied  applications 
 
 router.get('/', [isAuthenticated, admin], async(req, res) => {
     try {

@@ -6,6 +6,7 @@ const connectDB = require("./config/database");
 const mainRoutes = require("./routes/register");
 const authRoutes = require("./routes/auth")
 const applicationRoutes = require("./routes/application")
+const grantRoutes = require("./routes/grants");
 
 const PORT = process.env.PORT || 5000;
 
@@ -25,6 +26,7 @@ app.use(morgan("tiny"));
 app.use("/api", mainRoutes);
 app.use("/api/login", authRoutes);
 app.use("/api/application", applicationRoutes);
+app.use("/api/grants", grantRoutes);
 
 app.listen(PORT, () =>
     console.log(`Server Runing on https://localhost:${PORT}`)
