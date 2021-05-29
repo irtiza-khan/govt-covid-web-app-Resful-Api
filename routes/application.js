@@ -5,6 +5,8 @@ const isAuthenticated = require("../middleware/auth");
 const Joi = require("joi");
 const { applicant, admin } = require("../middleware/userRole");
 
+
+//*Api For Applicant To Submit Application
 router.post("/resident/submit", [isAuthenticated, applicant], (req, res) => {
     const {
         applicantId,
@@ -14,25 +16,20 @@ router.post("/resident/submit", [isAuthenticated, applicant], (req, res) => {
         statusOfApplication,
     } = req.body;
     const data = {
-        applicantId,
         numberOfDependents,
         fundRequired,
         rationRequired,
-        statusOfApplication,
     };
 
-    //TODO:  Validation Not working
-    // const schema = Joi.object({
-    //     applicantId: Joi.string().required,
-    //     numberOfDependents: Joi.string().required,
-    //     fundRequired: Joi.string().required,
-    //     rationRequired: Joi.string().required,
-    //     statusOfApplication: Joi.string().required,
-    // });
+    const schema = Joi.object({
+        numberOfDependents: Joi.string().required(),
+        fundRequired: Joi.string().required(),
+        rationRequired: Joi.required()
+    });
 
-    // const { error } = schema.validate(data);
+    const { error } = schema.validate(data);
 
-    // if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send(error.details[0].message);
     Application.findOne({ applicantId: req.user.id }).then((app) => {
         if (app) return res.status(401).send("Application already exits");
 
@@ -128,15 +125,4 @@ router.get("/completed", [isAuthenticated, admin], async(req, res) => {
 
 
 
-function validate(data) {
-    const schema = Joi.object({
-        applicantId: Joi.string().required,
-        numberOfDependents: Joi.string().required,
-        fundRequired: Joi.string().required,
-        rationRequired: Joi.string().required,
-        statusOfApplication: Joi.string().required,
-    });
-
-    return schema.validate(data);
-}
 module.exports = router;

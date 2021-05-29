@@ -7,6 +7,8 @@ const _ = require("lodash");
 const jwt = require("jsonwebtoken");
 const isAuthenticated = require("../middleware/auth");
 
+
+//*Api For User Authentication
 router.post("/", async(req, res) => {
     const { userId, password } = req.body;
 

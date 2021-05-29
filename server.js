@@ -23,6 +23,8 @@ connectDB();
 
 app.use(morgan("tiny"));
 
+
+//Routes
 app.use("/api", mainRoutes);
 app.use("/api/login", authRoutes);
 app.use("/api/application", applicationRoutes);

@@ -11,18 +11,18 @@ router.post("/:id", [isAuthenticated, admin], (req, res) => {
     const { applicationId, rationDonated, fundsGranted } = req.body;
     const id = req.params.id;
 
-    // const schema = Joi.object({
-    //     rationDonated: Joi.array().required(),
-    //     fundsGranted: Joi.string().required(),
-    // });
+    const schema = Joi.object({
+        rationDonated: Joi.required(),
+        fundsGranted: Joi.string().required(),
+    });
 
-    // const { error } = schema.validate({
-    //     applicationId,
-    //     rationDonated,
-    //     fundsGranted,
-    // });
+    let data = {
+        rationDonated,
+        fundsGranted,
+    };
+    const { error } = schema.validate(data);
 
-    // if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send(error.details[0].message);
     Grant.findOne({
         applicationId: id,
     }).then((grant) => {
@@ -48,11 +48,26 @@ router.post("/:id", [isAuthenticated, admin], (req, res) => {
                         }
                     }
                 );
-                return res.status(200).send({ message: "Application Successfully granted", result });
+                res.status(200).send({ message: "Application Successfully granted", result });
             })
             .catch((err) => console.log(err));
     });
 
 });
+
+
+//* api to view all the grants collections
+
+
+
+router.get("/", [isAuthenticated, admin], async(req, res) => {
+    try {
+        const grants = await Grant.find();
+        return res.status(200).send({ message: "All Granted Rations", grants });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 
 module.exports = router;
